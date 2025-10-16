@@ -3,7 +3,7 @@ This module tests the application using unittest.
 """
 
 import unittest
-from generate_element import StyledElement
+from generate_element_manager import ElementGenerationManager
 
 class TestFunctions(unittest.TestCase):
     """
@@ -26,7 +26,7 @@ class TestFunctions(unittest.TestCase):
             "foreground":"#000000",
             "highlightbackground":"#BBBBBB"
         }
-        se = StyledElement("some_master",default_fonts,default_style)
+        se = ElementGenerationManager("some_master",default_fonts,default_style)
         se.create_preset("new preset","other_master","button")
 
         # Actual test
@@ -54,8 +54,8 @@ class TestFunctions(unittest.TestCase):
             "foreground":"#000000",
             "highlightbackground":"#BBBBBB"
         }
-        se = StyledElement("some_master",default_fonts,default_style)
-        se.add_font_preset("SomeFont",("Times New Roman", 400))
+        se = ElementGenerationManager("some_master",default_fonts,default_style)
+        se.create_font_preset("SomeFont",("Times New Roman", 400))
 
         expected_result = {
             "LFont":("CC Wild Words", 40),

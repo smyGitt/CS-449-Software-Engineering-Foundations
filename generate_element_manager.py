@@ -3,9 +3,9 @@
     with the default stying inherited from the application.
 """
 
-from tkinter import ttk
+import copy
 
-class StyledElement():
+class ElementGenerationManager():
     """
         This class manages the creation of presets, and create
         elements from existing presets. Good for keeping consistent
@@ -17,17 +17,28 @@ class StyledElement():
         self.font_list = default_font
         self.default_style = default_style
 
-    def create_preset(self, preset_name,element_master, element_type, **kwargs):
+    def edit_default_style(self, style_dict: dict):
+        """
+            Edits the default style. style_dict accepts dictionaries, and will
+            automatically append or update each item to the default style dictionary.
+        """
+        for key in style_dict.keys():
+            # lower() used to prevent any case sensitivity issues.
+            # TK styling keys only use lowercases.
+            self.default_style[key.lower()] = style_dict[key]
+
+    def create_preset(self, preset_name: str,element_master, element_type: str, **kwargs):
         """
             Adds a new preset to the class element preset list, which can be used
             to create a new tk element with the preset.
         """
-        self.presets[preset_name] = {"element_type": element_type, "options":{"master":element_master, **kwargs}}
+        self.presets[preset_name.title()] = {"element_type": element_type.lower(), "options":{"master":element_master, **kwargs}}
 
-    def add_font_preset(self, font_preset_name, new_font):
+    def create_font_preset(self, font_preset_name: str, new_font: tuple):
         """
             Adds a new font to the class font list, which can be used
             to create a new tk element with the preset font.
+            font_preset_name is a string, new_font is a tuple.
         """
         self.font_list[font_preset_name] = new_font
 
@@ -35,15 +46,7 @@ class StyledElement():
         """
             Returns the font from the preset.
         """
-        return self.font_list[font_name].copy()
-
-    def return_preset_element(self, preset_name):
-        """
-            Returns the element that uses preset styling.
-        """
-        target_type = self.presets[preset_name]["element_type"]
-        if target_type == "label":
-            return ttk.Label()
+        return copy.deepcopy(self.font_list[font_name])
         
     def return_preset_element_debug(self, preset_name):
         """
