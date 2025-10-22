@@ -69,20 +69,26 @@ class SOSGameLogic:
             Expected range: 3 to 30, integer.
         """
         board_dimension = self.game_board_dimension_variable.get()
-        if board_dimension < 3 or board_dimension > 30:
+        if board_dimension < 3 or board_dimension > 15:
             return False
         return True
 
     def on_tile_click(self, tile:Tile):
         """
             Instructions to handle a specific tile('s button) being clicked. To summarize:
+            0. Check if the button text is empty, that is, it has not been clicked by anyone.
             1. Change button text and color, then disable the button to prevent any more clicks.
-            2. Give ownership of the Tile to the Player that has clicked it, along with the Tile's letter.
-            3. Then switch turn to the next player, by updating the current player to the next player.
+            2. Give ownership of the Tile to the Player that has clicked it, along with the
+               Tile's letter.
+            3. Then switch turn to the next player, by updating the current player to the
+               next player.
         """
-        self.__update_button(tile)
-        self.player_dict[self.current_player_number_variable.get()].add_owned_tile(self.current_letter_variable.get(), tile)
-        self.__switch_player()
+        if tile.button_instance.cget("text") == "":
+            self.__update_button(tile)
+            self.player_dict[self.current_player_number_variable.get()].add_owned_tile(
+                self.current_letter_variable.get(), tile
+            )
+            self.__switch_player()
 
     def __update_button(self, tile:Tile):
         tile.button_instance.config(text=self.current_letter_variable.get(),

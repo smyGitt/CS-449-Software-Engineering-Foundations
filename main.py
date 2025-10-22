@@ -123,11 +123,11 @@ class MainApplication(tk.Frame):
 
     def __validate_and_start(self):
         if self.game_logic.dimension_validate():
-            self.__game_board(self.game_logic.game_board_dimension_variable.get())
+            self.game_board(self.game_logic.game_board_dimension_variable.get())
         else:
             msgbox.showerror("Invalid Dimension", "Please enter a valid board dimension.")
 
-    def __game_board(self, board_dimension:int):
+    def game_board(self, board_dimension:int):
         """
             Creates a game board, very barebones.
         """
