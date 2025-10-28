@@ -25,11 +25,11 @@ class MainApplication(tk.Frame):
         self.game_logic =       SOSGameLogic()
         self.default_font =     "Times New Roman"
         self.default_font_dict = {
-            "XLarge_Default":   (self.default_font, 80),
-            "Large_Default":    (self.default_font, 40),
-            "Medium_Default":   (self.default_font, 20),
-            "Small_Default":    (self.default_font, 15),
-            "XSmall_Default":   (self.default_font, 10)
+            "XLarge_Default":   (self.default_font, 30),
+            "Large_Default":    (self.default_font, 20),
+            "Medium_Default":   (self.default_font, 15),
+            "Small_Default":    (self.default_font, 10),
+            "XSmall_Default":   (self.default_font, 5)
             }
         self.title_screen()
 
@@ -131,8 +131,8 @@ class MainApplication(tk.Frame):
         """
             Creates a game board, very barebones.
         """
-        board_side_length = 750
-        button_side_length = 750 // board_dimension
+        board_side_length = 500
+        button_side_length = board_side_length // board_dimension
 
         new_window = tk.Toplevel(self.parent)
         new_window.title(f"SOS {board_dimension}x{board_dimension} || Human vs "
@@ -141,7 +141,7 @@ class MainApplication(tk.Frame):
         new_window.rowconfigure([0,1],weight=1)
         new_window.columnconfigure([0],weight=0)
         new_window.columnconfigure([1],weight=1)
-        new_window.geometry(f"{board_side_length+400}x{(int) (board_side_length)}")
+        new_window.geometry(f"{board_side_length+300}x{(int) (board_side_length)}")
         new_window.resizable(False,False)
 
         game_board_frame = tk.Frame(new_window, bg="white")
@@ -152,9 +152,10 @@ class MainApplication(tk.Frame):
                 self.game_logic.gameboard_tile_instance_dict[row_index][column_index] = Tile(x_coord = column_index, y_coord = row_index)
                 new_button = tk.Button(
                         game_board_frame,
-                        font=(self.default_font,int(500 / board_dimension)),
+                        font=(self.default_font,int(300 / board_dimension)),
                         width=button_side_length,
                         compound="center",
+                        bg="white",
                         command=(lambda tile = self.game_logic.gameboard_tile_instance_dict[row_index][column_index]:
                                  self.game_logic.on_tile_click(tile))
                 )
@@ -174,7 +175,7 @@ class MainApplication(tk.Frame):
         self.__board_control_tab(new_window).grid(row=0,rowspan=2,column=3,sticky="NSEW")
 
     def __player_tab(self, master:tk.Frame, player_number:int):
-        frame = tk.Frame(master=master, relief="raised", border=2, padx=15, pady=10, width=200)
+        frame = tk.Frame(master=master, relief="raised", border=2, padx=15, pady=10, width=150)
         frame.grid_propagate(False)
         frame.rowconfigure([2],weight=1)
         frame.columnconfigure([0],weight=1)
@@ -199,7 +200,7 @@ class MainApplication(tk.Frame):
         return frame
     
     def __board_control_tab(self, master:tk.Frame):
-        frame = tk.Frame(master=master, relief="raised", border=2, padx=15, pady=10, width=200)
+        frame = tk.Frame(master=master, relief="raised", border=2, padx=15, pady=10, width=150)
         frame.grid_propagate(False)
         frame.rowconfigure([1],weight=1)
         frame.columnconfigure([0],weight=1)
@@ -222,7 +223,7 @@ class MainApplication(tk.Frame):
                         font=self.default_font_dict["Large_Default"],
                         borderwidth=3,
                         indicatoron=False,
-                        pady=44
+                        pady=32
                         ).grid(row=3,column=0,sticky="new")
         tk.Radiobutton(master=frame,
                         text="O",
@@ -231,7 +232,7 @@ class MainApplication(tk.Frame):
                         font=self.default_font_dict["Large_Default"],
                         borderwidth=3,
                         indicatoron=False,
-                        pady=44
+                        pady=32
                         ).grid(row=4,column=0,sticky="new")
         return frame
 
