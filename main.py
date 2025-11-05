@@ -123,7 +123,8 @@ class MainApplication(tk.Frame):
 
     def __validate_and_start(self):
         if self.game_logic.dimension_validate():
-            self.game_board(self.game_logic.game_board_dimension_variable.get())
+            self.game_logic.master = self.game_board(self.game_logic.game_board_dimension_variable.get())
+            self.game_logic.reset_state()
         else:
             msgbox.showerror("Invalid Dimension", "Please enter a valid board dimension.")
 
@@ -173,6 +174,8 @@ class MainApplication(tk.Frame):
         self.__player_tab(new_window,1).grid(row=0,column=0,sticky="NSEW")
         self.__player_tab(new_window,2).grid(row=1,column=0,sticky="NSEW")
         self.__board_control_tab(new_window).grid(row=0,rowspan=2,column=3,sticky="NSEW")
+
+        return new_window
 
     def __player_tab(self, master:tk.Frame, player_number:int):
         frame = tk.Frame(master=master, relief="raised", border=2, padx=15, pady=10, width=150)
