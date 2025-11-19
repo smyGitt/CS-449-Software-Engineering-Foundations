@@ -176,6 +176,7 @@ class SOSGameLogic:
             3. Then switch turn to the next player, by updating the current player to the
                next player.
         """
+        if tile.button_instance.cget("text") != "": return # just in case
         current_letter = self.current_letter_variable.get()
         self.__get_current_player().make_move(tile, current_letter)
         self.process_turn_and_switch(tile, current_letter)
