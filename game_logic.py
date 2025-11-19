@@ -83,7 +83,7 @@ class ComputerPlayer(Player):
         super().__init__(player_name, color, gui)
 
     def take_turn(self, game_logic) -> None:
-        game_logic.gui.master.after(100, lambda: self._computer_move_logic(game_logic))
+        game_logic.gui.master.after(82, lambda: self._computer_move_logic(game_logic))
 
     def _computer_move_logic(self, game_logic) -> None:
         available_moves = game_logic._return_possible_score_per_tile()
@@ -177,6 +177,7 @@ class SOSGameLogic:
                next player.
         """
         if tile.button_instance.cget("text") != "": return # just in case
+        if isinstance(self.__get_current_player(), ComputerPlayer): return # also just in case
         current_letter = self.current_letter_variable.get()
         self.__get_current_player().make_move(tile, current_letter)
         self.process_turn_and_switch(tile, current_letter)
@@ -246,7 +247,6 @@ class SOSGameLogic:
         self.current_player_name_variable.set(self.player_dict[1].name)
         self.gained_point = False
         self.occupied_tile_count = 0
-
         self.__get_current_player().take_turn(self)
 
     def __disable_all_buttons(self) -> None:
@@ -393,7 +393,7 @@ class SOSGameLogic:
             #   x   
             #   -   <- below1
             # Check if it is near the edge and therefore impossible 
-            if y > 0 and y < board_dimension - 1:
+            if y > 0 and y < board_dimension:
                 above1 = board[y-1][x].button_instance.cget("text")
                 below1 = board[y+1][x].button_instance.cget("text")
                 pattern = above1 + "O" + below1
